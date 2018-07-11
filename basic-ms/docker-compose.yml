@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  basic-ms:
+    image: basicms
+    build:
+      context: .
+      dockerfile: basic-ms/Dockerfile
