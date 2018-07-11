@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace basic_ms
 {
@@ -14,6 +15,7 @@ namespace basic_ms
     {
         public static void Main(string[] args)
         {
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
             BuildWebHost(args).Run();
         }
 
@@ -23,3 +25,4 @@ namespace basic_ms
                 .Build();
     }
 }
+
