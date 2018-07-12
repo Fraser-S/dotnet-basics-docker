@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace basic_ms
 {
@@ -33,7 +34,20 @@ namespace basic_ms
                 var latitude = latString.TryParse();
                 var longitude = longString.TryParse();
 
-                await context.Response.WriteAsync($"Retrieving Weather for lat: {latitude}, long: {longitude}");
+                if(latitude.HasValue && longitude.HasValue)
+                {
+                    var forecast = new List<WeatherReport>();
+                    for (var days = 1; days <= 5; days++)
+                    {
+                        forecast.Add(new WeatherReport(latitude.Value, longitude.Value, days));                  
+                    }
+                    var json = JsonConvert.SerializeObject(forecast, Formatting.Indented);
+                    context.Response.ContentType = "application/json; charset=utf-8";
+                    await context.Response.WriteAsync(json);
+                } else
+                {
+                    await context.Response.WriteAsync($"lat and long query parameters not supplied. example /?lat=-35.55&long=-12.35");
+                }
             });
         }
     }
